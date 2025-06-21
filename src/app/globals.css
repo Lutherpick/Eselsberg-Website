@@ -1,26 +1,31 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Dark/light theme variables (optional) */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #ffffff;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Accessibility skip link styling */
+.skip-link {
+  @apply sr-only focus:not-sr-only absolute top-4 left-4 bg-accent text-white px-2 py-1 rounded;
+}
+
+/* If you still want a container helper */
+.container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* A basic “card” helper, if you like */
+.card {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+  rounded-xl shadow hover:-translate-y-1 hover:shadow-lg transition p-4;
 }
