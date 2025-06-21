@@ -1,16 +1,18 @@
-// src/app/layout.tsx
 import './globals.css';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
+export const metadata = {
+    title: 'Eselsbergsteige Dormitory',
+    description: 'Resident information, internet setup, and community events',
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
-        <body className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 antialiased">
+        <body className="bg-light-bg text-fg-light font-body">
+        {/* Skip link */}
         <a href="#main-content" className="skip-link">Skip to content</a>
-        <Header />
-        <main id="main-content">{children}</main>
-        <Footer />
+
+        {children}
         </body>
         </html>
     );

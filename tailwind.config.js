@@ -8,9 +8,15 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                accent: 'rgba(0,0,0,0.99)',
-                'accent-light': 'rgba(255,255,255,0.62)',
+                primary: '#1E4D53',       // deep teal accent
+                secondary: '#EFB32F',     // sunrise gold
+                'light-bg': '#F9FAFB',
+                'dark-bg': '#0F172A',
             },
+            fontFamily: {
+                body: ['Merriweather', 'serif'],
+                sans: ['Inter', 'sans-serif'],
+            }
         },
     },
     plugins: [],

@@ -1,31 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Dark/light theme variables (optional) */
+/* Theme variables */
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  --bg-light: #ffffff;
+  --bg-dark: #0F172A;
+  --fg-light: #1F2937;
+  --fg-dark:  #E5E7EB;
 }
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #ffffff;
-    --foreground: #ffffff;
+    --bg-light: var(--bg-dark);
+    --fg-light: var(--fg-dark);
   }
 }
 
-/* Accessibility skip link styling */
-.skip-link {
-  @apply sr-only focus:not-sr-only absolute top-4 left-4 bg-accent text-white px-2 py-1 rounded;
+/* Global styles */
+html, body {
+  @apply bg-[var(--bg-light)] text-[var(--fg-light)] antialiased;
+}
+body {
+  font-family: Merriweather, serif;
+}
+h1, h2, h3, h4, h5 {
+  font-family: Inter, sans-serif;
 }
 
-/* If you still want a container helper */
+/* Utility helpers */
+.skip-link {
+  @apply sr-only focus:not-sr-only absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded;
+}
 .container {
   @apply mx-auto px-4 sm:px-6 lg:px-8;
 }
-
-/* A basic “card” helper, if you like */
 .card {
-  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
-  rounded-xl shadow hover:-translate-y-1 hover:shadow-lg transition p-4;
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow hover:shadow-xl transition p-6;
 }
