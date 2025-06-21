@@ -1,43 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Theme variables */
-:root {
-  --bg-light: #ffffff;
-  --bg-dark: #0F172A;
-  --fg-light: #1F2937;
-  --fg-dark:  #E5E7EB;
-}
+/* Always white bg in light, dark-bg in dark */
+:root { --bg: var(--light-bg); --fg: #1F2937; }
+html.dark { --bg: var(--dark-bg); --fg: #E5E7EB; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-light: var(--bg-dark);
-    --fg-light: var(--fg-dark);
-  }
-}
-
-/* Global styles */
 html, body {
-  @apply bg-[var(--bg-light)] text-[var(--fg-light)] antialiased;
+  @apply bg-[var(--bg)] text-[var(--fg)] antialiased transition-colors duration-300;
 }
-body {
-  font-family: Merriweather, serif;
-}
-h1, h2, h3, h4, h5 {
-  font-family: Inter, sans-serif;
-}
+body { font-family: Merriweather, serif; }
+h1,h2,h3,h4 { font-family: Inter, sans-serif; }
 
-/* Utility helpers */
+/* skip-link for a11y */
 .skip-link {
   @apply sr-only focus:not-sr-only absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded;
 }
+
+/* container helper */
 .container {
   @apply mx-auto px-4 sm:px-6 lg:px-8;
 }
+
+/* card helper */
 .card {
-  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow hover:shadow-xl transition p-6;
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow p-6 transition;
 }

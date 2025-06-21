@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: 'media',
+    darkMode: 'class',
     content: [
         './src/app/**/*.{js,ts,jsx,tsx}',
         './src/components/**/*.{js,ts,jsx,tsx}',
@@ -8,15 +8,15 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: '#1E4D53',       // deep teal accent
-                secondary: '#EFB32F',     // sunrise gold
-                'light-bg': '#F9FAFB',
-                'dark-bg': '#0F172A',
+                primary: '#1E4D53',
+                secondary: '#EFB32F',
+                'light-bg': '#FFFFFF',
+                'dark-bg':  '#0A0A0A',
             },
             fontFamily: {
-                body: ['Merriweather', 'serif'],
-                sans: ['Inter', 'sans-serif'],
-            }
+                sans: ['Inter','sans-serif'],
+                body: ['Merriweather','serif'],
+            },
         },
     },
     plugins: [],
