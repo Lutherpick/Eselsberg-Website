@@ -1,264 +1,248 @@
 // src/app/dormitory/page.tsx
 'use client'
 
-import Layout from '@/components/Layout'
 import Hero from '@/components/Hero'
 import Image from 'next/image'
 import Link from 'next/link'
+import {
+    TrashIcon,
+    MoonIcon,
+    HomeIcon,
+    TicketIcon,
+    BuildingOfficeIcon,
+    SparklesIcon,
+} from '@heroicons/react/24/outline'
+import { motion } from 'framer-motion'
 
-const HERO_SLIDES = [
-    { id: 'dorm-day',   src: '/dorm-day.jpg',   alt: 'Eselsbergsteige Dormitory, day view' },
-    { id: 'dorm-night', src: '/dorm-night2.jpg', alt: 'Eselsbergsteige Dormitory, night view' },
-]
+const fadeIn = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 },
+}
 
 export default function DormitoryPage() {
     return (
-        <Layout>
-            {/* Hero */}
-            <Hero slides={HERO_SLIDES} />
+        <main className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+            {/* — Hero Slideshow — */}
+            <Hero />
 
-            {/* Main content */}
-            <main className="prose prose-invert mx-auto px-4 py-12 lg:prose-lg">
-                {/* General Information */}
-                <section>
-                    <h2>General Information</h2>
-                    <p>
-                        The Eselsbergsteige dormitory, or short “EBS”, is located on the Eselsberg in the
-                        decentral northwest of Ulm. During semester over 500 students live here—many spend
-                        their first years here before moving on to private apartments.
-                    </p>
-                    <p>
-                        The complex comprises seven multi-story blocks (A–G). Blocks F & G are fully
-                        furnished 2-person flats; in A–D, 3–5 people share a kitchen and living area.
-                    </p>
-                    <p>
-                        Included gigabit internet, helpful caretakers and numerous common rooms make dorm
-                        life comfortable. For leasing questions, please contact the{' '}
-                        <Link
-                            href="https://ebs.studierendenwerk-ulm.de/housing?lang=en"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            Studierendenwerk Ulm
-                        </Link>
-                        .
-                    </p>
-                </section>
+            {/* — Welcome — */}
+            <section className="container mx-auto px-6 py-16 text-center">
+                <motion.h1
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={fadeIn}
+                    transition={{ duration: 0.6 }}
+                    className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600 mb-4"
+                >
+                    Welcome to Eselsbergsteige Dormitory
+                </motion.h1>
+                <motion.p
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={fadeIn}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto"
+                >
+                    Your home on the Eselsberg: 500 students, gigabit internet, caring staff,
+                    and vibrant common rooms.
+                </motion.p>
+            </section>
 
-                {/* Neighborhood */}
-                <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 py-12">
-                    <div>
-                        <h2>Neighborhood</h2>
-                        <p>
-                            The dorm lies on the upper Eselsberg, bordered by Eselsbergsteige,
-                            Ferdinand-Sauerbruch-Weg, and Sebastian-Kneipp-Weg. Mostly quiet,
-                            residential surroundings.
-                        </p>
-                        <p>
-                            3 min walk → “Virchowstraße” (bus 5 every 10 min): shops, bakery,
-                            pharmacy, doctors. 15 min more → “Burgunderweg”: banks, post, DHL,
-                            administration.
-                        </p>
-                        <p>
-                            To campus: bus 5 → “Wissenschaftsstadt” in 10 min or 20 min on foot.
-                            Main station: 45 min walk or bus 5 → “Ludwigsfeld”/“Wiley” in 15 min.
-                        </p>
+            {/* — Waste Separation — */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                variants={fadeIn}
+                transition={{ duration: 0.6 }}
+                className="container mx-auto px-6 py-12 rounded-2xl shadow-2xl bg-gradient-to-r from-green-400 to-blue-500 dark:from-green-600 dark:to-blue-700 hover:shadow-3xl transform hover:-translate-y-1 transition"
+            >
+                <div className="flex items-center mb-4">
+                    <div className="p-2 bg-white/20 rounded-full mr-3">
+                        <TrashIcon className="w-6 h-6 text-white" />
                     </div>
-                    <div className="relative h-64 lg:h-auto">
+                    <h2 className="text-2xl font-semibold text-white">Waste Separation & Disposal</h2>
+                </div>
+                <p className="text-white mb-3">
+                    Glass → green bins (south of B). Plastic/paper → yellow bags (city office). Bio/residual → any bin.
+                    If one is full, use the next—don’t leave bags beside.
+                </p>
+                <span className="inline-block bg-white/30 text-white px-4 py-1 rounded-full text-sm">
+          Plastic bags don’t belong in biological waste!
+        </span>
+            </motion.section>
+
+            {/* — Quiet Hours — */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                variants={fadeIn}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="container mx-auto px-6 py-12 mt-12 rounded-2xl shadow-2xl bg-gradient-to-r from-purple-400 to-pink-500 dark:from-purple-600 dark:to-pink-700 hover:shadow-3xl transform hover:-translate-y-1 transition"
+            >
+                <div className="flex items-center mb-4">
+                    <div className="p-2 bg-white/20 rounded-full mr-3">
+                        <MoonIcon className="w-6 h-6 text-white" />
+                    </div>
+                    <h2 className="text-2xl font-semibold text-white">Quiet Hours & Community</h2>
+                </div>
+                <p className="text-white">
+                    BBQs, birthdays & study nights happen—please communicate early if you’re disturbed.
+                    Respect quiet hours after 10 p.m.; keep windows closed.
+                </p>
+            </motion.section>
+
+            {/* — Neighborhood — */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                variants={fadeIn}
+                transition={{ duration: 0.6 }}
+                className="container mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12"
+            >
+                <div>
+                    <div className="flex items-center mb-4">
+                        <div className="p-2 bg-indigo-500 dark:bg-indigo-400 rounded-full mr-3">
+                            <HomeIcon className="w-6 h-6 text-white" />
+                        </div>
+                        <h2 className="text-2xl font-semibold">Neighborhood</h2>
+                    </div>
+                    <p className="mb-2">
+                        The dorm lies on the upper Eselsberg, bordered by Eselsbergsteige,
+                        Ferdinand-Sauerbruch-Weg, and Sebastian-Kneipp-Weg.
+                    </p>
+                    <p className="mb-2">
+                        3 min walk → “Virchowstraße” (bus 5 every 10 min): shops, bakery, pharmacy, doctors.<br />
+                        15 min → “Burgunderweg”: banks, post, DHL, administration.
+                    </p>
+                    <p>
+                        To campus: bus 5 → “Wissenschaftsstadt” in 10 min or 20 min on foot.<br />
+                        Main station: 45 min walk or bus 5 → “Ludwigsfeld”/“Wiley” in 15 min.
+                    </p>
+                </div>
+                <div className="relative h-64 lg:h-auto rounded-lg overflow-hidden shadow-xl">
+                    <Image
+                        src="/lageplan.jpg"
+                        alt="Map of Eselsbergsteige Dormitory"
+                        fill
+                        className="object-cover"
+                    />
+                </div>
+            </motion.section>
+
+            {/* — Semester Ticket — */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                variants={fadeIn}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="container mx-auto px-6 py-12 rounded-2xl shadow-2xl bg-gradient-to-r from-yellow-400 to-red-400 dark:from-yellow-600 dark:to-red-600 hover:shadow-3xl transform hover:-translate-y-1 transition"
+            >
+                <div className="flex items-center mb-4">
+                    <div className="p-2 bg-white/20 rounded-full mr-3">
+                        <TicketIcon className="w-6 h-6 text-white" />
+                    </div>
+                    <h2 className="text-2xl font-semibold text-white">Semester Ticket & Bus Schedule</h2>
+                </div>
+                <p className="text-white mb-2">
+                    Bus 5 stops at the dorm every 10 min (weekday). Single fare €2.40; semester ticket €129
+                    (full term). Free after 6 p.m. & weekends with student ID.
+                </p>
+                <Link
+                    href="https://www.dvb-ulm.de/fahrplan/fahrplanuebersicht/"
+                    className="inline-block text-white underline"
+                    target="_blank"
+                >
+                    Bus schedule & prices →
+                </Link>
+                <p className="mt-2 text-sm italic text-white/80">Last update: 13.06.2020</p>
+            </motion.section>
+
+            {/* — Apartment Types — */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                variants={fadeIn}
+                transition={{ duration: 0.6 }}
+                className="container mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12"
+            >
+                <div className="rounded-2xl shadow-2xl bg-gray-100 dark:bg-gray-800 p-8 hover:shadow-3xl transform hover:-translate-y-1 transition">
+                    <div className="flex items-center mb-4">
+                        <div className="p-2 bg-blue-500 dark:bg-blue-400 rounded-full mr-3">
+                            <BuildingOfficeIcon className="w-6 h-6 text-white" />
+                        </div>
+                        <h3 className="text-xl font-semibold">3–5 Person Shared Apartments</h3>
+                    </div>
+                    <p className="text-gray-800 dark:text-gray-200">
+                        In blocks A–D you’ll find 3–5 person WGs. Kitchens have stove, oven and cupboards;
+                        fridge is usually stocked. Toilet and shower may be combined or separate. Rooms
+                        include bed, desk, chair and storage—moveable for your comfort.
+                    </p>
+                </div>
+                <div className="rounded-2xl shadow-2xl bg-gray-100 dark:bg-gray-800 p-8 hover:shadow-3xl transform hover:-translate-y-1 transition">
+                    <div className="flex items-center mb-4">
+                        <div className="p-2 bg-blue-500 dark:bg-blue-400 rounded-full mr-3">
+                            <BuildingOfficeIcon className="w-6 h-6 text-white" />
+                        </div>
+                        <h3 className="text-xl font-semibold">2 Person Flats (F & G)</h3>
+                    </div>
+                    <p className="text-gray-800 dark:text-gray-200">
+                        Blocks F & G offer calmer 2-person flats with a 2-plate stove, smaller fridge,
+                        and separate toilet & bathroom. Rooms are slightly larger.
+                    </p>
+                </div>
+            </motion.section>
+
+            {/* — Facilities & Map — */}
+            <motion.section
+                initial="hidden}"
+                whileInView="visible"
+                variants={fadeIn}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="container mx-auto px-6 py-16 bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-2xl"
+            >
+                <h2 className="text-2xl font-semibold mb-6 text-center">Facilities & Common Rooms</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <ul className="space-y-2 text-gray-800 dark:text-gray-200">
+                        <li>Fitness rooms, table tennis, table football, pool</li>
+                        <li>Music room, party room, learning room, oven rooms</li>
+                        <li>Tools room (drill, jigsaw, soldering gun, jumper cables)</li>
+                        <li>Washing rooms (€1.30/cycle; dryer €1.60)</li>
+                    </ul>
+                    <div className="relative h-64 lg:h-auto rounded-lg overflow-hidden shadow-lg">
                         <Image
                             src="/lageplan.jpg"
-                            alt="Map of Eselsbergsteige Dormitory"
+                            alt="Map of common facilities"
                             fill
-                            className="object-cover rounded-lg shadow-lg"
+                            className="object-cover"
                         />
                     </div>
-                </section>
+                </div>
+            </motion.section>
 
-                {/* Description of Apartments */}
-                <section className="py-12">
-                    <h2>Description of Apartments</h2>
+            {/* — Closing Sparkle Section — */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                variants={fadeIn}
+                transition={{ duration: 0.6 }}
+                className="container mx-auto px-6 py-16 text-center"
+            >
+                <SparklesIcon className="mx-auto w-12 h-12 text-yellow-400 mb-4" />
+                <h2 className="text-3xl font-bold mb-2">Ready to Join Us?</h2>
+                <p className="mb-6 text-gray-700 dark:text-gray-300">
+                    Reach out via the Studierendenwerk Ulm for leasing questions, or drop by our
+                    Info EBS WhatsApp group to get connected with current residents!
+                </p>
+                <Link
+                    href="https://ebs.studierendenwerk-ulm.de/housing?lang=en"
+                    className="inline-block px-8 py-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition"
+                    target="_blank"
+                >
+                    Contact Studierendenwerk Ulm
+                </Link>
+            </motion.section>
 
-                    {/* 3–5 Person WG */}
-                    <h3>3, 4 or 5 Person Shared Apartments</h3>
-                    <div className="md:flex md:items-start md:gap-8">
-                        <div className="md:flex-1">
-                            <p>
-                                In blocks A–D you’ll find 3–5 person WGs. Kitchens have stove,
-                                oven and cupboards; fridge is usually stocked. Toilet and
-                                shower may be combined or separate.
-                            </p>
-                            <p>
-                                Rooms include bed, desk, chair and storage—moveable for your
-                                comfort.
-                            </p>
-                        </div>
-                        <div className="md:flex-1 relative h-48 sm:h-64 md:h-auto">
-                            <Image
-                                src="/doublette-plan_english (1).jpg"
-                                alt="3–5 person apartment floorplan"
-                                fill
-                                className="object-cover rounded-lg"
-                            />
-                        </div>
-                    </div>
-
-                    {/* 2 Person Flat */}
-                    <h3 className="mt-8">2 Person Shared Apartments</h3>
-                    <div className="md:flex md:items-start md:gap-8">
-                        <div className="md:flex-1 relative h-48 sm:h-64 md:h-auto">
-                            <Image
-                                src="/wg-kueche.jpg"
-                                alt="2 person apartment kitchen"
-                                fill
-                                className="object-cover rounded-lg"
-                            />
-                        </div>
-                        <div className="md:flex-1">
-                            <p>
-                                Blocks F & G offer calmer 2-person flats with a 2-plate stove,
-                                smaller fridge, and separate toilet & bathroom. Rooms are
-                                slightly larger.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Waste Separation */}
-                <section className="py-12">
-                    <h2>Waste Separation and Disposal</h2>
-                    <p>
-                        Glass → green containers (south of B). Plastic/paper → yellow bags
-                        (city office). Bio/residual → any bin. If one is full, use the next—
-                        do not leave bags beside.
-                    </p>
-                    <p className="text-red-600">
-                        Plastic bags don’t belong in biological waste!
-                    </p>
-                </section>
-
-                {/* Noise */}
-                <section className="py-12">
-                    <h2>Noise</h2>
-                    <p>
-                        BBQs, birthdays & study nights happen—please communicate early if
-                        you’re disturbed. Respect quiet hours after 10 p.m.; keep windows
-                        closed.
-                    </p>
-                </section>
-
-                {/* Transport & Fees */}
-                <section className="py-12 space-y-8">
-                    <div>
-                        <h2>Semester Ticket & Bus Schedule</h2>
-                        <p>
-                            Bus 5 stops at the dorm every 10 min (weekday). Single fare €2.40;
-                            semester ticket €129 for the full term. Free after 6 p.m. &
-                            weekends with student ID. Last bus just after midnight; night buses
-                            Fri/Sat.
-                        </p>
-                        <Link
-                            href="https://www.dvb-ulm.de/fahrplan/fahrplanuebersicht/"
-                            target="_blank"
-                            className="text-blue-600 hover:underline"
-                        >
-                            Bus schedule & prices →
-                        </Link>
-                        <p><em>Last update: 13.06.2020</em></p>
-                    </div>
-                    <div>
-                        <h2>Broadcasting Fee</h2>
-                        <p>
-                            One-off per WG via “Beitragsservice” after city registration. Split
-                            cost with roommates. Online form{' '}
-                            <Link
-                                href="https://www.rundfunkbeitrag.de/"
-                                target="_blank"
-                                className="text-blue-600 hover:underline"
-                            >
-                                here
-                            </Link>{' '}
-                            (English info{' '}
-                            <Link
-                                href="https://www.rundfunkbeitrag.de/informationen/englisch/index_ger.html"
-                                target="_blank"
-                                className="text-blue-600 hover:underline"
-                            >
-                                here
-                            </Link>).
-                        </p>
-                    </div>
-                </section>
-
-                {/* Facilities */}
-                <section className="py-12">
-                    <h2>Facilities</h2>
-                    <p>
-                        Common rooms: fitness, table tennis, pool, music, party, learning,
-                        ovens, tools, washing rooms. Tutors manage keys—please leave rooms
-                        cleaner than you found.
-                    </p>
-                    <div className="md:flex md:gap-8 py-8">
-                        {/* Table */}
-                        <div className="md:flex-1 overflow-x-auto">
-                            <table className="min-w-full text-left">
-                                <thead>
-                                <tr>
-                                    <th>Block</th>
-                                    <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th>
-                                </tr>
-                                </thead>
-                                <tbody className="divide-y">
-                                <tr>
-                                    <td>Entrance</td>
-                                    <td>109</td><td>111</td><td>113</td><td>115</td><td>105</td><td>107</td><td>4</td>
-                                </tr>
-                                <tr>
-                                    <td>Caretaker</td>
-                                    <td>✓</td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                </tr>
-                                {/* …add remaining rows… */}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        {/* Map */}
-                        <div className="md:flex-1 relative h-64 sm:h-80 md:h-auto">
-                            <Image
-                                src="/lageplan.jpg"
-                                alt="Map showing block locations"
-                                fill
-                                className="object-cover rounded-lg shadow-lg"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Bar, Party & More */}
-                    <h3>The Esel’s Bar</h3>
-                    <p><strong>Wednesdays & Sundays, 9 p.m.–12 a.m.</strong></p>
-                    <p>
-                        Boardgame & movie nights on 1st/3rd & 2nd/4th Mondays at 8 p.m. Inexpensive
-                        drinks; WhatsApp group for invites.
-                    </p>
-
-                    <h3>Party Room</h3>
-                    <p>Block E—deposit €50, booking via tutor (Fri/Sat/pre-holidays only).</p>
-
-                    <h3>Washing Rooms</h3>
-                    <p>Washer €1.30, dryer €1.60 (student ID only). Top-up at Block E entrance.</p>
-
-                    <h3>Tools Room</h3>
-                    <p>
-                        Drill, jigsaw, soldering gun, jumper cables & more. Bring consumables (screws,
-                        nails, glue).
-                    </p>
-
-                    <h3>Underground Garage & Bicycle Parking</h3>
-                    <p>
-                        Car parking via Studierendenwerk (paid). Bike racks in garages & around campus
-                        (see map).
-                    </p>
-                </section>
-            </main>
-        </Layout>
+            {/* Footer is rendered by app/layout.tsx */}
+        </main>
     )
 }
