@@ -1,3 +1,4 @@
+
 'use client';
 
 type NewsItem = {
@@ -24,13 +25,13 @@ const NEWS: NewsItem[] = [
 export default function NewsGrid() {
     return (
         <section className="py-16 bg-gray-100 dark:bg-gray-900">
-            <div className="container mx-auto">
+            <div className="max-w-6xl mx-auto px-4">
                 <h2 className="text-3xl font-semibold mb-8 text-gray-900 dark:text-gray-100">
                     News & Updates
                 </h2>
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {NEWS.map((n) => (
-                        <a key={n.date + n.title} href={n.link} className="card">
+                        <a key={n.date + n.title} href={n.link} className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition">
                             <p className="text-sm text-gray-500 dark:text-gray-400">{n.date}</p>
                             <h3 className="font-semibold mt-1 text-gray-900 dark:text-white">
                                 {n.title}

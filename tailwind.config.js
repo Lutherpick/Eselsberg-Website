@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: 'class',
+    darkMode: 'class', // we'll toggle via class
     content: [
         './src/app/**/*.{js,ts,jsx,tsx}',
         './src/components/**/*.{js,ts,jsx,tsx}',
@@ -8,14 +8,14 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: '#1E4D53',
-                secondary: '#EFB32F',
-                'light-bg': '#FFFFFF',
-                'dark-bg':  '#0A0A0A',
+                primary: '#1E4D53',    // deep teal
+                secondary: '#EFB32F',  // sunrise gold
+                'light-bg': '#FFFFFF', // always white background
+                'dark-bg': '#FFFFFF',  // white even in “dark” mode
             },
             fontFamily: {
-                sans: ['Inter','sans-serif'],
-                body: ['Merriweather','serif'],
+                body: ['Merriweather', 'serif'],
+                sans: ['Inter', 'sans-serif'],
             },
         },
     },

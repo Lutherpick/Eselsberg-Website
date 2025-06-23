@@ -1,24 +1,23 @@
-import './globals.css';
-import { ThemeProvider } from 'next-themes';
+import './globals.css'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import ThemeProvider from '@/components/ThemeProvider'
 
 export const metadata = {
     title: 'Eselsbergsteige Dormitory',
-    description: 'Info & resources for residents',
-};
+    description: 'Student housing Ulm',
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
-        <body>
-        <ThemeProvider attribute="class">
-            {/* a11y skip link */}
-            <a href="#main-content" className="skip-link">
-                Skip to content
-            </a>
-
+        <body className="bg-white dark:bg-black text-black dark:text-white transition-colors">
+        <ThemeProvider>
+            <Header />
             {children}
+            <Footer />
         </ThemeProvider>
         </body>
         </html>
-    );
+    )
 }

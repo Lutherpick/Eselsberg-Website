@@ -5,8 +5,8 @@ import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
     return (
-        <header className="bg-primary text-white py-4 shadow-md">
-            <div className="container flex justify-between items-center">
+        <header className="bg-gray-800  text-white py-4 shadow-md">
+            <div className="container mx-auto px-4 flex justify-between items-center">
                 <Link href="/" className="text-xl font-semibold">
                     Eselsbergsteige Dormitory
                 </Link>

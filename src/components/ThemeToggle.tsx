@@ -1,26 +1,15 @@
-'use client';
-
-import { useTheme } from 'next-themes';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
+'use client'
+import { useTheme } from './ThemeProvider'
 
 export default function ThemeToggle() {
-    const { theme, setTheme } = useTheme();
+    const { toggle, theme } = useTheme()
 
     return (
         <button
-            aria-label="Toggle theme"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="
-        p-2 rounded-full
-        bg-white bg-opacity-20 hover:bg-opacity-40
-        transition
-      "
+            onClick={toggle}
+            className="px-2 py-1 rounded-full border border-gray-500 dark:border-white text-sm"
         >
-            {theme === 'dark' ? (
-                <SunIcon className="h-6 w-6 text-white" />
-            ) : (
-                <MoonIcon className="h-6 w-6 text-white" />
-            )}
+            {theme === 'light' ? '🌞' : '🌙'}
         </button>
-    );
+    )
 }
