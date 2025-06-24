@@ -1,13 +1,17 @@
 // src/components/HomeContent.tsx
 'use client'
 
-export default function HomeContent() {
+type Props = {
+  dict: Record<string, string>
+}
+
+export default function HomeContent({dict}: Props) {
     return (
         <section
             id="main-content"
             className="mx-auto max-w-4xl px-4 py-12 text-center space-y-6"
         >
-            <h1 className="text-3xl font-semibold">Welcome to Eselsbergsteige Dormitory</h1>
+            <h1 className="text-3xl font-semibold">{dict["home.title"]}</h1>
             <p className="text-base leading-relaxed">
                 This website is directed to freshmen. Whether you’re searching for an apartment or already live here,
                 you’ll find everything from internet setup to caretaker information and community events.
