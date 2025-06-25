@@ -1,39 +1,43 @@
+// src/middleware.js
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
-import { NextResponse } from "next/server";
- 
-let locales = ['en', 'de']
+import { NextResponse } from 'next/server'
+
+const locales = ['en', 'de']
+const defaultLocale = 'en'
 
 function getLocale(request) {
-    let headers = { 'accept-language': 'de,en;q=0.5' }
-    let languages = new Negotiator({ headers }).languages()
-    let locales = ['en', 'de']
-    let defaultLocale = 'en'
+    const negotiator = new Negotiator({ headers: request.headers })
+    const languages = negotiator
+        .languages()
+        .filter(lang => lang && lang !== '*')
     return match(languages, locales, defaultLocale)
 }
- 
+
 export function middleware(request) {
-  // Check if there is any supported locale in the pathname
-  const { pathname } = request.nextUrl
-  const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )
- 
-  if (pathnameHasLocale) return
- 
-  // Redirect if there is no locale
-  const locale = getLocale(request)
-  request.nextUrl.pathname = `/${locale}${pathname}`
-  // e.g. incoming request is /products
-  // The new URL is now /en-US/products
-  return NextResponse.redirect(request.nextUrl)
+    const { pathname } = request.nextUrl
+
+    // 1) Skip _next, API routes and asset requests
+    if (
+        pathname.startsWith('/_next') ||
+        pathname.startsWith('/api')   ||
+        /\.[^\/]+$/.test(pathname)
+    ) {
+        return NextResponse.next()
+    }
+
+    // 2) If the path already starts with a supported locale, do nothing
+    if (locales.some(l => pathname === `/${l}` || pathname.startsWith(`/${l}/`))) {
+        return NextResponse.next()
+    }
+
+    // 3) Otherwise detect and redirect
+    const locale = getLocale(request)
+    const url = request.nextUrl.clone()
+    url.pathname = `/${locale}${pathname}`
+    return NextResponse.redirect(url)
 }
- 
+
 export const config = {
-  matcher: [
-    // Skip all internal paths (_next)
-    '/((?!_next).*)',
-    // Optional: only run on root (/) URL
-    // '/'
-  ],
+    matcher: '/((?!_next|api).*)',
 }
