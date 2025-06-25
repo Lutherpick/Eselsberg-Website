@@ -66,8 +66,10 @@ the main function of your page needs to have these parameters:
 export default async function Page({
     params
 }: {
-  params: Promise<{ lang: "en" | "de" }>
+    params: Promise<{ lang: "en" | "de" }>
 }) {
+    const { lang } = await params
+    const dict = await getDictionary(lang)
 ```
 
 For every component that needs to use this dictionary we will just pass it down as an argument.
