@@ -1,3 +1,7 @@
 {
-    "home.title": "Welcome to Eselsbergsteige Dormitory"
+    "home": {
+        "title": "Welcome to Eselsbergsteige Dormitory",
+        "introduction": "This website is aimed at people interested in the Eselsbergsteige dormitory. Whether you're looking for an apartment or already live here, you'll find everything from housing offers to information about janitors and community events.",
+        "notice": "We, the tutors of this dormitory, want to stress that we are the residents’ representatives, not the official carrier. For leasing details, please visit the Studierendenwerk Ulm. We keep these pages up-to-date, but always confirm with the official site for the latest legal info."
+    }
 }

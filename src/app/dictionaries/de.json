@@ -1,3 +1,7 @@
 {
-    "home.title": "Willkommen im Wohnheim der Eselsbergsteige"
+    "home": {
+        "title": "Willkommen im Wohnheim der Eselsbergsteige",
+        "introduction": "Diese Website richtet sich an alle, die sich für das Studentenwohnheim Eselsbergsteige interessieren. Egal, ob Sie eine Wohnung suchen oder bereits hier wohnen, hier finden Sie alles, von Wohnangebot bis zu Informationen über Hausmeister und Gemeinschaftsveranstaltungen.",
+        "notice": "Wir, die Tutoren dieses Wohnheims, möchten betonen, dass wir die Vertreter der Bewohner sind, nicht der offizielle Träger. Für Details zur Vermietung besuchen Sie bitte das Studierendenwerk Ulm. Wir halten diese Seiten auf dem neuesten Stand, aber informieren Sie sich immer auf der offiziellen Seite über die neuesten rechtlichen Informationen."
+    }
 }
