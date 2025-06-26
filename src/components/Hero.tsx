@@ -1,4 +1,3 @@
-// src/components/Hero.tsx
 'use client'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -14,11 +13,11 @@ import 'swiper/css/pagination'
 // register modules
 SwiperCore.use([Navigation, Pagination, Autoplay])
 
-const SLIDES = [
-    { id: 'night1', src: '/dorm-night.jpg',   alt: 'Dorm at night' },
-    { id: 'night2', src: '/dorm-night2.jpg', alt: 'Dorm at night (alternate view)' },
-    { id: 'day',    src: '/dorm-day.jpg',     alt: 'Dorm in the fall' },
-] as const
+const SLIDES: { id: string; src: string; alt: string }[] = [
+    { id: 'night1', src: '/dorm-night.jpg', alt: 'Dorm at night' },
+    { id: 'night2', src: '/dorm-night2.jpg', alt: 'Dorm at night (view 2)' },
+    { id: 'day', src: '/dorm-day.jpg', alt: 'Dorm in the fall' },
+]
 
 export default function Hero() {
     const [isPaused, setIsPaused] = useState(false)
@@ -62,7 +61,7 @@ export default function Hero() {
                                 </p>
                                 <button
                                     onClick={scrollToInfo}
-                                    className={`mt-8 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg transition`}
+                                    className="mt-8 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg transition"
                                 >
                                     Explore General Info ↓
                                 </button>
@@ -75,7 +74,7 @@ export default function Hero() {
             </Swiper>
 
             <button
-                onClick={() => setIsPaused(p => !p)}
+                onClick={() => setIsPaused((p) => !p)}
                 className={
                     'absolute bottom-4 right-4 z-10 rounded-full p-2 shadow-md text-white transition ' +
                     (isPaused

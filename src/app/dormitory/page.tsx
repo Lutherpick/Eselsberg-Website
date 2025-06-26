@@ -197,7 +197,7 @@ export default function DormitoryPage() {
                         className="w-full h-auto rounded-lg shadow-lg"
                     />
                     <img
-                        src="/doublette-plan_english%20(1).jpg"
+                        src="/doublette-plan-english-1.jpg"
                         alt="2 person apartment floorplan"
                         className="w-full h-auto rounded-lg shadow-lg"
                     />
