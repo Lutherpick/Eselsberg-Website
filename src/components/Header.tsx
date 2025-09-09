@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
+import SidebarButton from './SidebarButton';
 
 export default function Header() {
     return (
@@ -12,19 +13,8 @@ export default function Header() {
                 </Link>
 
                 <div className="flex items-center space-x-6">
-                    <nav className="space-x-6 text-sm">
-                        {['Home','Internet','Dormitory','Caretakers','Tutors'].map((l) => (
-                            <Link
-                                key={l}
-                                href={l === 'Home' ? '/' : `/${l.toLowerCase()}`}
-                                className="hover:text-secondary transition"
-                            >
-                                {l}
-                            </Link>
-                        ))}
-                    </nav>
-
                     <ThemeToggle />
+                    <SidebarButton />
                 </div>
             </div>
         </header>
