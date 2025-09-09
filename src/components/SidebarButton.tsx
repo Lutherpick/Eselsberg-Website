@@ -1,16 +1,23 @@
 "use client"
 import { useSidebar } from '@/context/SidebarContext';
+import {useEffect} from 'react';
 
 export default function SidebarButton() {
     const {sidebar, setSidebar} = useSidebar();
-    const handleScroll = () => {
-      if (sidebar) {
-        setSidebar(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
+    useEffect(() => {
+        const handleScroll = event => {
+            if (sidebar) {
+                console.log("scolling");
+                setSidebar(false);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [sidebar, setSidebar]);
     return (
-        <div onScroll={() => setSidebar(false)} className={`flex-1 p-4
+        <div className={`flex-1 p-4
             ${sidebar? 'ml-64' : 'ml-0'}`}>
             <div className="ml-auto">
               <button
