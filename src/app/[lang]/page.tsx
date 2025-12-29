@@ -1,10 +1,10 @@
+// src/app/[lang]/page.tsx
 import type { Metadata } from "next";
 
 import Layout from "@/components/Layout";
 import Hero from "@/components/Hero";
 import NewsGrid from "@/components/NewsGrid";
 import ConnectBanner from "@/components/ConnectBanner";
-import ImageCarousel from "@/components/ImageCarousel";
 import InRangeBanner from "@/components/InRangeBanner";
 import TutorsDirectory from "./tutors-directory";
 
@@ -28,7 +28,6 @@ export default async function HomePage({
             <Layout>
                 <main className="py-10 space-y-10">
                     <InRangeBanner />
-                    <ImageCarousel />
                     <NewsGrid lang={lang} />
                     <TutorsDirectory lang={lang} />
                 </main>
