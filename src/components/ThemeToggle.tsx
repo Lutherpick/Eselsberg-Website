@@ -1,15 +1,19 @@
-'use client'
-import { useTheme } from './ThemeProvider'
+// src/components/ThemeToggle.tsx
+"use client";
 
-export default function ThemeToggle() {
-    const { toggle, theme } = useTheme()
+import { useTheme } from "./ThemeProvider";
+
+export default function ThemeToggle(): JSX.Element {
+    const { toggle, theme } = useTheme();
 
     return (
         <button
+            type="button"
             onClick={toggle}
-            className="px-2 py-1 rounded-full border border-gray-500 dark:border-white text-sm"
+            className="px-2 py-1 rounded-full"
+            aria-label="Toggle theme"
         >
-            {theme === 'light' ? '🌞' : '🌙'}
+            {theme === "light" ? "☀️" : "🌙"}
         </button>
-    )
+    );
 }

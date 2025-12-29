@@ -8,23 +8,17 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-
-    "moduleResolution": "bundler",
-    "module": "esnext",
+    "moduleResolution": "node16",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-
-    /* ← Add this line: */
     "baseUrl": ".",
-
     "plugins": [
       {
         "name": "next"
       }
     ],
-
     "paths": {
       "@/*": ["src/*"]
     }

@@ -1,36 +1,40 @@
-// src/app/page.tsx
+import type { Metadata } from "next";
 
-import Hero from '@/components/Hero'
-import HomeContent from '@/components/HomeContent'
-import NewsGrid from '@/components/NewsGrid'
-import ConnectBanner from '@/components/ConnectBanner'
+import Layout from "@/components/Layout";
+import Hero from "@/components/Hero";
+import NewsGrid from "@/components/NewsGrid";
+import ConnectBanner from "@/components/ConnectBanner";
+import ImageCarousel from "@/components/ImageCarousel";
+import InRangeBanner from "@/components/InRangeBanner";
+import TutorsDirectory from "./tutors-directory";
 
-import { getDictionary } from '../dictionaries'
+export const metadata: Metadata = {
+    title: "Eselsbergsteige Dormitory",
+    description: "Student housing Ulm – information, news, internet, and contacts.",
+};
 
-import 'server-only'
-
-export default async function Page({
-    params
-}: {
-  params: Promise<{ lang: "en" | "de" }>
+export default async function HomePage({
+                                           params,
+                                       }: {
+    params: Promise<{ lang: string }>;
 }) {
-    const { lang } = await params
-    const dict = await getDictionary(lang)
+    const { lang: langParam } = await params;
+    const lang = langParam === "de" ? "de" : "en";
+
     return (
-        <div>
-            {/* 1) Shrunk Swiper banner */}
+        <>
             <Hero />
 
-            {/* 2) Centered intro text */}
-            <main>
-                <HomeContent dict={dict} />
+            <Layout>
+                <main className="py-10 space-y-10">
+                    <InRangeBanner />
+                    <ImageCarousel />
+                    <NewsGrid lang={lang} />
+                    <TutorsDirectory lang={lang} />
+                </main>
+            </Layout>
 
-                {/* 3) News & updates */}
-                <NewsGrid />
-
-                {/* 4) Connect banner */}
-                <ConnectBanner />
-            </main>
-        </div>
-    )
+            <ConnectBanner lang={lang} />
+        </>
+    );
 }

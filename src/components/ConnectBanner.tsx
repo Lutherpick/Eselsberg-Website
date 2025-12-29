@@ -3,26 +3,32 @@
 
 import Link from 'next/link'
 
-export default function ConnectBanner() {
+export default function ConnectBanner({ lang }: { lang: 'en' | 'de' }) {
+    const isDe = lang === 'de'
+
     return (
         <section className="bg-gray-800 text-white">
             <div className="mx-auto max-w-5xl space-y-4 px-4 py-12 text-center sm:px-6 lg:px-8">
-                <h2 className="text-xl font-semibold">Connect with Us</h2>
+                <h2 className="text-xl font-semibold">
+                    {isDe ? 'Kontakt & Hilfe' : 'Connect & get help'}
+                </h2>
                 <p className="mx-auto max-w-2xl text-sm leading-relaxed">
-                    Join our community events, get important updates, or reach out to the tutors for assistance.
+                    {isDe
+                        ? 'Wende dich bei Fragen an die Tutor:innen oder informiere dich über aktuelle News und Termine.'
+                        : 'Reach out to the tutors for help, or check the latest news and announcements.'}
                 </p>
                 <div className="flex flex-wrap justify-center gap-4 pt-4">
                     <Link
-                        href="/contact"
-                        className="rounded-full bg-gray-600 px-6 py-2 text-sm font-medium shadow-sm hover:bg-gray-500 transition"
+                        href={`/${lang}/tutors`}
+                        className="rounded-full bg-gray-600 px-6 py-2 text-sm font-medium hover:bg-gray-500 transition"
                     >
-                        Contact Tutors
+                        {isDe ? 'Tutor:innen kontaktieren' : 'Contact tutors'}
                     </Link>
                     <Link
-                        href="/events"
-                        className="rounded-full border border-gray-400 px-6 py-2 text-sm font-medium hover:bg-gray-700 transition"
+                        href={`/${lang}/news`}
+                        className="rounded-full border border-gray-500 px-6 py-2 text-sm font-medium hover:bg-gray-700 transition"
                     >
-                        Upcoming Events
+                        {isDe ? 'News öffnen' : 'Open news'}
                     </Link>
                 </div>
             </div>

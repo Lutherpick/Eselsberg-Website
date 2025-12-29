@@ -1,7 +1,12 @@
 // src/components/HomeContent.tsx
 'use client'
 
-export default function HomeContent({dict}: Record<string, string>) {
+interface HomeContentProps {
+    // keep it flexible; dictionary is loaded from JSON and may grow later
+    dict: any
+}
+
+export default function HomeContent({ dict }: HomeContentProps) {
     return (
         <section
             id="main-content"
