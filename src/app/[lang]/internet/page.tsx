@@ -8,12 +8,12 @@ export const metadata: Metadata = {
         'Information about wired network, eduroam WiFi, usage rules, and what to do if your access is blocked.',
 }
 
-export default function InternetPage({
-                                         params,
-                                     }: {
-    params: { lang: 'en' | 'de' }
+export default async function InternetPage({
+                                               params,
+                                           }: {
+    params: Promise<{ lang: 'en' | 'de' }>
 }) {
-    const { lang } = params
+    const { lang } = await params
     const isDe = lang === 'de'
 
     return (

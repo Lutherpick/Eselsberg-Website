@@ -11,6 +11,7 @@ const NAV_ITEMS = [
     { label: 'Dormitory', slug: 'dormitory' },
     { label: 'Caretakers', slug: 'caretakers' },
     { label: 'Tutors', slug: 'tutors' },
+    { label: 'FAQ', slug: 'faq' },
 ];
 
 

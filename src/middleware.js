@@ -7,7 +7,12 @@ const locales = ['en', 'de']
 const defaultLocale = 'en'
 
 function getLocale(request) {
-    const negotiator = new Negotiator({ headers: request.headers })
+    const headers = {}
+    request.headers.forEach((value, key) => {
+        headers[key] = value
+    })
+
+    const negotiator = new Negotiator({ headers })
     const languages = negotiator
         .languages()
         .filter(lang => lang && lang !== '*')

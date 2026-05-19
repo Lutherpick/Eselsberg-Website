@@ -14,18 +14,18 @@ type Tutor = {
 };
 
 function asTutors(payload: unknown): { updated_at?: string; tutors: Tutor[] } {
-    // Upstream could be:
-    // 1) { tutors: [...], count, updated_at }
-    // 2) [...rows]
-    // 3) anything else → []
     if (Array.isArray(payload)) {
         return { tutors: payload as Tutor[] };
     }
 
     if (payload && typeof payload === "object") {
-        const obj = payload as any;
+        const obj = payload as { updated_at?: string; tutors?: unknown };
+
         if (Array.isArray(obj.tutors)) {
-            return { updated_at: obj.updated_at, tutors: obj.tutors as Tutor[] };
+            return {
+                updated_at: obj.updated_at,
+                tutors: obj.tutors as Tutor[],
+            };
         }
     }
 
@@ -33,7 +33,7 @@ function asTutors(payload: unknown): { updated_at?: string; tutors: Tutor[] } {
 }
 
 export async function GET() {
-    const upstreamUrl = `${EBS_API_BASE}/tutors_api`;
+    const upstreamUrl = `${EBS_API_BASE}/tutors_api.php`;
 
     try {
         const res = await fetch(upstreamUrl, { cache: "no-store" });
@@ -53,6 +53,7 @@ export async function GET() {
         }
 
         let json: unknown;
+
         try {
             json = JSON.parse(text);
         } catch {
@@ -69,15 +70,18 @@ export async function GET() {
 
         const { updated_at, tutors } = asTutors(json);
 
-        // Normalize fields & drop obviously bad rows
-        const normalized: Tutor[] = (tutors ?? [])
+        const normalized: Tutor[] = tutors
             .filter((t) => t && typeof t === "object")
-            .map((t: any) => ({
-                tutor: String(t.tutor ?? "").trim(),
-                name: String(t.name ?? "").trim(),
-                zinr: String(t.zinr ?? "").trim(),
-                email: t.email == null ? null : String(t.email).trim(),
-            }))
+            .map((t) => {
+                const row = t as Partial<Tutor>;
+
+                return {
+                    tutor: String(row.tutor ?? "").trim(),
+                    name: String(row.name ?? "").trim(),
+                    zinr: String(row.zinr ?? "").trim(),
+                    email: row.email == null ? null : String(row.email).trim(),
+                };
+            })
             .filter((t) => t.tutor && t.name);
 
         return NextResponse.json(
@@ -89,13 +93,15 @@ export async function GET() {
             },
             { status: 200, headers: { "Cache-Control": "no-store" } }
         );
-    } catch (e: any) {
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
         return NextResponse.json(
             {
                 ok: false,
                 error: "fetch_failed",
                 upstreamUrl,
-                message: e?.message ?? String(e),
+                message,
             },
             { status: 502, headers: { "Cache-Control": "no-store" } }
         );

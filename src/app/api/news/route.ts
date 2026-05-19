@@ -1,3 +1,4 @@
+// src/app/api/news/route.ts
 import { NextResponse } from "next/server";
 import { clampInt, EBS_API_BASE, normalizeLang } from "@/lib/ebs";
 
@@ -10,21 +11,22 @@ export async function GET(req: Request) {
     const lang = normalizeLang(searchParams.get("lang"));
     const limit = clampInt(searchParams.get("limit"), 5, 1, 20);
 
-    const url = `${EBS_API_BASE}/news_api?lang=${encodeURIComponent(lang)}&limit=${limit}`;
+    const upstreamUrl = `${EBS_API_BASE}/news_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
 
     try {
-        const res = await fetch(url, { cache: "no-store" });
+        const res = await fetch(upstreamUrl, { cache: "no-store" });
         const text = await res.text();
 
         if (!res.ok) {
             return NextResponse.json(
                 {
+                    ok: false,
                     error: "upstream_error",
-                    upstreamUrl: url,
+                    upstreamUrl,
                     upstreamStatus: res.status,
                     upstreamBody: text.slice(0, 2000),
                 },
-                { status: 502 }
+                { status: 502, headers: { "Cache-Control": "no-store" } }
             );
         }
 
@@ -35,14 +37,17 @@ export async function GET(req: Request) {
                 "Cache-Control": "no-store",
             },
         });
-    } catch (e: any) {
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
         return NextResponse.json(
             {
+                ok: false,
                 error: "fetch_failed",
-                upstreamUrl: url,
-                message: e?.message ?? String(e),
+                upstreamUrl,
+                message,
             },
-            { status: 502 }
+            { status: 502, headers: { "Cache-Control": "no-store" } }
         );
     }
 }

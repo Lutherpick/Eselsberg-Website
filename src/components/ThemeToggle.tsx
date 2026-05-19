@@ -3,7 +3,7 @@
 
 import { useTheme } from "./ThemeProvider";
 
-export default function ThemeToggle(): JSX.Element {
+export default function ThemeToggle() {
     const { toggle, theme } = useTheme();
 
     return (

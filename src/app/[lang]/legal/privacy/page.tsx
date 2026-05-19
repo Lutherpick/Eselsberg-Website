@@ -9,12 +9,12 @@ export const metadata: Metadata = {
         'Summary of the data protection information for the Eselsbergsteige dormitory website.',
 }
 
-export default function PrivacyPage({
-                                        params,
-                                    }: {
-    params: { lang: 'en' | 'de' }
+export default async function PrivacyPage({
+                                              params,
+                                          }: {
+    params: Promise<{ lang: 'en' | 'de' }>
 }) {
-    const { lang } = params
+    const { lang } = await params
     const isDe = lang === 'de'
 
     if (!isDe) {

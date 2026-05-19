@@ -9,12 +9,12 @@ export const metadata: Metadata = {
         'Legal imprint and contact information for the Eselsbergsteige dormitory website.',
 }
 
-export default function ImprintPage({
-                                        params,
-                                    }: {
-    params: { lang: 'en' | 'de' }
+export default async function ImprintPage({
+                                              params,
+                                          }: {
+    params: Promise<{ lang: 'en' | 'de' }>
 }) {
-    const { lang } = params
+    const { lang } = await params
     const isDe = lang === 'de'
 
     if (!isDe) {
