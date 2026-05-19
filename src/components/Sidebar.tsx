@@ -26,8 +26,8 @@ export default function Sidebar() {
         <div className="flex">
             <div
                 className={`bg-gray-800 text-white
-                    absolute h-lvh transition-all
-                    duration-300 z-50 right-0
+                    fixed h-lvh transition-all
+                    duration-300 z-50 right-0 top-0
                     ${sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'}
                 `}
             >

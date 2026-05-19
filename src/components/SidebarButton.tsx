@@ -25,14 +25,16 @@ export default function SidebarButton() {
                 <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => setSidebarOpen((prev) => !prev)}
+                    aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
+                    type="button"
                 >
-                    {/* Toggle icon based on sidebar state */}
                     {sidebarOpen ? (
                         <svg
                             className="h-6 w-6"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
+                            aria-hidden="true"
                         >
                             <path
                                 strokeLinecap="round"
@@ -47,6 +49,7 @@ export default function SidebarButton() {
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
+                            aria-hidden="true"
                         >
                             <path
                                 strokeLinecap="round"

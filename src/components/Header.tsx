@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
+import SidebarButton from './SidebarButton';
 
 const NAV_ITEMS = [
     { label: 'Home', slug: '' },
@@ -31,7 +32,7 @@ export default function Header() {
                 </Link>
 
                 <div className="flex items-center space-x-6">
-                    <nav className="space-x-6 text-sm">
+                    <nav className="hidden lg:flex lg:space-x-6 text-sm">
                         {NAV_ITEMS.map(({ label, slug }) => {
                             const href = slug ? `/${currentLang}/${slug}` : `/${currentLang}`;
                             const isActive = slug === currentPageSlug;
@@ -52,6 +53,7 @@ export default function Header() {
                     </nav>
 
                     <ThemeToggle />
+                    <SidebarButton />
                 </div>
             </div>
         </header>
