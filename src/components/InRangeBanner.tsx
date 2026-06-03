@@ -1,12 +1,15 @@
 import "server-only";
-import { getOrigin } from "@/lib/origin";
+import { EBS_API_BASE } from "@/lib/ebs";
 
-type InRangeResponse = { in_range: boolean } | { ok: false; reason: string };
+type InRangeResponse =
+    | { in_range?: boolean; inRange?: boolean }
+    | { ok: false; reason: string };
 
 async function fetchInRange(): Promise<InRangeResponse> {
-    // Node fetch() (server components) needs an absolute URL.
-    const origin = await getOrigin();
-    const res = await fetch(new URL("/api/inrange", origin), { cache: "no-store" });
+    const res = await fetch(`${EBS_API_BASE}/inrange_api.php`, {
+        cache: "no-store",
+        redirect: "follow",
+    });
 
     if (!res.ok) return { ok: false, reason: `HTTP ${res.status}` };
     return (await res.json()) as InRangeResponse;
@@ -14,7 +17,12 @@ async function fetchInRange(): Promise<InRangeResponse> {
 
 export default async function InRangeBanner() {
     const data = await fetchInRange();
-    const inRange = "in_range" in data ? data.in_range : null;
+    const inRange =
+        "in_range" in data && typeof data.in_range === "boolean"
+            ? data.in_range
+            : "inRange" in data && typeof data.inRange === "boolean"
+              ? data.inRange
+              : null;
 
     if (inRange == null) return null;
 
