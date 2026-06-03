@@ -1,35 +1,52 @@
 import "server-only";
 import Link from "next/link";
-import { getOrigin } from "@/lib/origin";
+import { EBS_API_BASE } from "@/lib/ebs";
 
 type NewsItem = {
     date: string;
     title: string;
-    body: string;
+    body?: string | null;
+    description?: string | null;
 };
 
 type Appointment = {
     date: string;
     title: string;
-    body: string;
+    body?: string | null;
+    description?: string | null;
 };
 
 async function fetchNews(lang: "en" | "de", limit = 6) {
-    const origin = await getOrigin();
-    const res = await fetch(new URL(`/api/news?lang=${lang}&limit=${limit}`, origin), {
+    const url = `${EBS_API_BASE}/news_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
+    const res = await fetch(url, {
         cache: "no-store",
+        redirect: "follow",
     });
     if (!res.ok) return [] as NewsItem[];
     return (await res.json()) as NewsItem[];
 }
 
 async function fetchAppointments(lang: "en" | "de", limit = 5) {
-    const origin = await getOrigin();
-    const res = await fetch(new URL(`/api/appointments?lang=${lang}&limit=${limit}`, origin), {
+    const url = `${EBS_API_BASE}/appointments_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
+    const res = await fetch(url, {
         cache: "no-store",
+        redirect: "follow",
     });
     if (!res.ok) return [] as Appointment[];
     return (await res.json()) as Appointment[];
+}
+
+function summary(item: NewsItem | Appointment) {
+    return item.body ?? item.description ?? "";
+}
+
+function slugify(title: string) {
+    return title
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
 }
 
 export default async function NewsGrid({ lang }: { lang: "en" | "de" }) {
@@ -49,13 +66,13 @@ export default async function NewsGrid({ lang }: { lang: "en" | "de" }) {
                     {news.map((n) => (
                         <Link
                             key={`${n.date}-${n.title}`}
-                            href={`/${lang}/news/${n.date}-${n.title.toLowerCase().replace(/\s+/g, "-")}`}
+                            href={`/${lang}/news/${n.date}-${slugify(n.title)}`}
                             className="rounded-xl border bg-white/70 dark:bg-white/5 p-4 hover:shadow-sm transition"
                         >
                             <div className="text-xs text-black/60 dark:text-white/60">{n.date}</div>
                             <div className="mt-1 font-semibold">{n.title}</div>
                             <div className="mt-2 text-sm text-black/70 dark:text-white/70 line-clamp-3">
-                                {n.body}
+                                {summary(n)}
                             </div>
                         </Link>
                     ))}
@@ -70,7 +87,7 @@ export default async function NewsGrid({ lang }: { lang: "en" | "de" }) {
                             <div className="text-xs text-black/60 dark:text-white/60">{a.date}</div>
                             <div className="mt-1 font-semibold">{a.title}</div>
                             <div className="mt-2 text-sm text-black/70 dark:text-white/70 line-clamp-3">
-                                {a.body}
+                                {summary(a)}
                             </div>
                         </div>
                     ))}

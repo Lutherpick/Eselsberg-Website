@@ -2,6 +2,7 @@ import "server-only";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { EBS_API_BASE } from "@/lib/ebs";
 
 type NewsItem = {
     date: string;
@@ -18,7 +19,11 @@ function parseSlug(slug: string) {
 }
 
 async function fetchNews(lang: "en" | "de", limit = 200): Promise<NewsItem[]> {
-    const res = await fetch(`/api/news?lang=${lang}&limit=${limit}`, { cache: "no-store" });
+    const url = `${EBS_API_BASE}/news_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
+    const res = await fetch(url, {
+        cache: "no-store",
+        redirect: "follow",
+    });
     if (!res.ok) return [];
     return (await res.json()) as NewsItem[];
 }
