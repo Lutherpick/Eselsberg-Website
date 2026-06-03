@@ -51,10 +51,11 @@ export default async function TutorsDirectory({ lang }: { lang: "en" | "de" }) {
     const sample = tutors.slice(0, 6);
 
     return (
-        <section className="rounded-3xl border border-slate-200/70 bg-white/70 p-6 shadow-[0_8px_30px_rgba(2,6,23,0.08)] dark:border-slate-800 dark:bg-slate-950">
+        <section className="glass-card p-6 md:p-8">
             <div className="flex items-start justify-between gap-6">
                 <div>
-                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                    <p className="section-label">{isDe ? "Kontakt" : "Contacts"}</p>
+                    <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-100">
                         {isDe ? "Aktuelle Tutor-Liste" : "Current tutor list"}
                     </h2>
                     <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
@@ -70,7 +71,7 @@ export default async function TutorsDirectory({ lang }: { lang: "en" | "de" }) {
 
                 <Link
                     href={`/${lang}/tutors`}
-                    className="text-sm font-medium text-slate-700 underline-offset-4 hover:underline dark:text-slate-200"
+                    className="rounded-full border border-primary/20 px-4 py-2 font-sans text-sm font-semibold text-primary transition hover:bg-primary hover:text-white dark:border-secondary/40 dark:text-secondary"
                 >
                     {isDe ? "Vollständige Liste öffnen" : "Open full list"}
                 </Link>

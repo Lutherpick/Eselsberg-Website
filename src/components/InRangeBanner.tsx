@@ -28,9 +28,9 @@ export default async function InRangeBanner() {
 
     if (!inRange) {
         return (
-            <div className="rounded-2xl border border-amber-200/60 bg-amber-50/70 dark:border-amber-400/20 dark:bg-amber-500/10 px-4 py-3 text-sm">
+            <div className="rounded-2xl border border-secondary/40 bg-secondary/15 px-5 py-4 font-sans text-sm text-slate-800 shadow-sm dark:text-slate-100">
                 <strong className="font-semibold">Off-campus?</strong>{" "}
-                Some content (e.g., internal links) may be accessible only from the dorm network.
+                Some internal resources may only work from the dorm network.
             </div>
         );
     }
