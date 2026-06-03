@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
-import SidebarButton from './SidebarButton';
 
 const NAV_ITEMS = [
     { label: 'Home', slug: '' },
@@ -53,7 +52,6 @@ export default function Header() {
                     </nav>
 
                     <ThemeToggle />
-                    <SidebarButton />
                 </div>
             </div>
         </header>
