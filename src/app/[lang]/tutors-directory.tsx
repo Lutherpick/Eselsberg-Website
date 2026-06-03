@@ -1,7 +1,7 @@
 // src/app/[lang]/tutors-directory.tsx
 import Link from "next/link";
 
-import { getOrigin } from "@/lib/origin";
+import { EBS_API_BASE } from "@/lib/ebs";
 
 type Tutor = {
     tutor: string;
@@ -18,20 +18,24 @@ type TutorsApiResponse = {
 };
 
 async function fetchTutorsPreview(): Promise<TutorsApiResponse | null> {
-    const origin = await getOrigin();
-    const url = new URL("/api/tutors", origin);
-
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(`${EBS_API_BASE}/tutors_api.php`, {
+        cache: "no-store",
+        redirect: "follow",
+    });
     if (!res.ok) return null;
 
     const json = (await res.json()) as any;
-    if (!json?.ok || !Array.isArray(json.tutors)) return null;
+    const tutors = Array.isArray(json)
+        ? json
+        : Array.isArray(json?.tutors)
+          ? json.tutors
+          : [];
 
     return {
         ok: true,
         updated_at: json.updated_at,
-        count: Number(json.count ?? json.tutors.length ?? 0),
-        tutors: json.tutors as Tutor[],
+        count: Number(json.count ?? tutors.length ?? 0),
+        tutors: tutors as Tutor[],
     };
 }
 

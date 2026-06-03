@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import TutorDirectory, { type Tutor } from "@/components/TutorDirectory";
 import TutorRoles from "@/components/TutorRoles";
-import { getOrigin } from "@/lib/origin";
+import { EBS_API_BASE } from "@/lib/ebs";
 
 export const metadata: Metadata = {
     title: "Tutors – Eselsbergsteige Dormitory",
@@ -14,8 +14,10 @@ type TutorsApiResponse =
     | { ok: false; error?: string };
 
 async function fetchTutors(): Promise<Tutor[]> {
-    const origin = await getOrigin();
-    const res = await fetch(new URL("/api/tutors", origin), { cache: "no-store" });
+    const res = await fetch(`${EBS_API_BASE}/tutors_api.php`, {
+        cache: "no-store",
+        redirect: "follow",
+    });
 
     if (!res.ok) return [];
 
