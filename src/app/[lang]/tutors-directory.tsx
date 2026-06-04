@@ -51,8 +51,8 @@ export default async function TutorsDirectory({ lang }: { lang: "en" | "de" }) {
     const sample = tutors.slice(0, 6);
 
     return (
-        <section className="glass-card p-6 md:p-8">
-            <div className="flex items-start justify-between gap-6">
+        <section className="border-t border-slate-200/80 pt-8 dark:border-white/10">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                     <p className="section-label">{isDe ? "Kontakt" : "Contacts"}</p>
                     <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-100">
@@ -71,14 +71,14 @@ export default async function TutorsDirectory({ lang }: { lang: "en" | "de" }) {
 
                 <Link
                     href={`/${lang}/tutors`}
-                    className="rounded-full border border-primary/20 px-4 py-2 font-sans text-sm font-semibold text-primary transition hover:bg-primary hover:text-white dark:border-secondary/40 dark:text-secondary"
+                    className="w-fit rounded-full border border-primary/20 px-4 py-2 font-sans text-sm font-semibold text-primary transition hover:bg-primary hover:text-white dark:border-secondary/40 dark:text-secondary"
                 >
                     {isDe ? "Vollständige Liste öffnen" : "Open full list"}
                 </Link>
             </div>
 
             {sample.length === 0 ? (
-                <div className="mt-6 rounded-2xl border border-slate-200/70 bg-slate-50 p-4 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-200">
+                <div className="mt-6 border-t border-slate-200 pt-4 text-sm text-slate-700 dark:border-white/10 dark:text-slate-200">
                     {isDe ? "Keine Daten." : "No data."}
                 </div>
             ) : (
@@ -86,7 +86,7 @@ export default async function TutorsDirectory({ lang }: { lang: "en" | "de" }) {
                     {sample.map((p) => (
                         <li
                             key={`${p.tutor}-${p.email ?? ""}-${p.zinr}-${p.name}`}
-                            className="rounded-xl border border-slate-200/70 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"
+                            className="border-t border-slate-200 pt-4 dark:border-white/10"
                         >
                             <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                                 {p.name}

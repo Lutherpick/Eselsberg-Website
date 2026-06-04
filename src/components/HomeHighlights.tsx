@@ -53,8 +53,8 @@ export default function HomeHighlights({ lang }: { lang: "en" | "de" }) {
     const copy = COPY[lang];
 
     return (
-        <section id="info" className="glass-card overflow-hidden p-6 md:p-8">
-            <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+        <section id="info" className="border-t border-slate-200/80 pt-8 dark:border-white/10">
+            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
                 <div>
                     <p className="section-label">{copy.label}</p>
                     <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-4xl">
@@ -70,9 +70,8 @@ export default function HomeHighlights({ lang }: { lang: "en" | "de" }) {
                         <Link
                             key={card.href}
                             href={card.href}
-                            className="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
+                            className="group border-l-2 border-slate-200 py-1 pl-4 transition hover:border-primary dark:border-white/15 dark:hover:border-secondary"
                         >
-                            <div className="mb-4 h-1.5 w-12 rounded-full bg-secondary transition group-hover:w-16" />
                             <h3 className="font-sans text-base font-semibold text-slate-950 dark:text-white">
                                 {card.title}
                             </h3>

@@ -21,30 +21,30 @@ export default function Header() {
     const currentPageSlug = segments[1] ?? '';
 
     return (
-        <header className="sticky top-0 z-40 border-b border-white/50 bg-white/85 text-slate-900 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/85 dark:text-white">
-            <div className="container mx-auto flex flex-col gap-3 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex items-center justify-between gap-4">
+        <header className="relative z-30 border-b border-slate-200/70 bg-[var(--bg)] text-slate-900 dark:border-white/10 dark:text-white">
+            <div className="container mx-auto flex flex-col gap-2 px-4 py-2 md:flex-row md:items-center md:justify-between">
+                <div className="flex items-center justify-between gap-3">
                     <Link href={`/${currentLang}`} className="group flex items-center gap-3">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-sm font-bold text-white shadow-lg shadow-primary/20">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-xs font-bold text-white">
                             EBS
                         </span>
                         <span>
-                            <span className="block font-sans text-base font-semibold leading-tight lg:text-lg">
+                            <span className="block font-sans text-sm font-semibold leading-tight md:text-base">
                                 Eselsbergsteige
                             </span>
-                            <span className="block text-xs uppercase tracking-[0.22em] text-slate-500 group-hover:text-primary dark:text-slate-400">
+                            <span className="hidden text-[10px] uppercase tracking-[0.18em] text-slate-500 group-hover:text-primary dark:text-slate-400 sm:block">
                                 Dormitory
                             </span>
                         </span>
                     </Link>
 
-                    <div className="lg:hidden">
+                    <div className="md:hidden">
                         <ThemeToggle />
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <nav className="flex max-w-full gap-2 overflow-x-auto rounded-full border border-slate-200/80 bg-white/70 p-1 text-sm shadow-inner dark:border-white/10 dark:bg-white/5">
+                <div className="flex min-w-0 items-center gap-3">
+                    <nav className="flex max-w-full gap-1 overflow-x-auto text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                         {NAV_ITEMS.map(({ label, slug }) => {
                             const href = slug ? `/${currentLang}/${slug}` : `/${currentLang}`;
                             const isActive = slug === currentPageSlug;
@@ -54,10 +54,10 @@ export default function Header() {
                                     key={label}
                                     href={href}
                                     className={
-                                        'whitespace-nowrap rounded-full px-3 py-2 font-sans transition ' +
+                                        'whitespace-nowrap rounded-full px-2.5 py-1.5 font-sans transition md:px-3 ' +
                                         (isActive
-                                            ? 'bg-primary text-white shadow-sm'
-                                            : 'text-slate-700 hover:bg-secondary/20 hover:text-primary dark:text-slate-200 dark:hover:text-secondary')
+                                            ? 'bg-primary/10 text-primary dark:bg-secondary/15 dark:text-secondary'
+                                            : 'text-slate-700 hover:bg-slate-200/70 hover:text-primary dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-secondary')
                                     }
                                 >
                                     {label}
@@ -66,7 +66,7 @@ export default function Header() {
                         })}
                     </nav>
 
-                    <div className="hidden lg:block">
+                    <div className="hidden md:block">
                         <ThemeToggle />
                     </div>
                 </div>

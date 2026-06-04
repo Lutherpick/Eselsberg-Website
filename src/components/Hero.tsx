@@ -1,124 +1,96 @@
 // src/components/Hero.tsx
 'use client'
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import Image from 'next/image'
-import { useCallback, useState } from 'react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-
-const SLIDES: { id: string; src: string; alt: string }[] = [
-    { id: 'night1', src: '/dorm-night.jpg', alt: 'Dorm at night' },
-    { id: 'night2', src: '/dorm-night2.jpg', alt: 'Dorm at night (view 2)' },
-    { id: 'day', src: '/dorm-day.jpg', alt: 'Dorm in the fall' },
+const IMAGES = [
+    { src: '/dorm-day.jpg', alt: 'Eselsbergsteige dormitory during the day' },
+    { src: '/dorm-night.jpg', alt: 'Eselsbergsteige dormitory at night' },
+    { src: '/dorm-night2.jpg', alt: 'Second night view of the dormitory' },
 ]
 
-export default function Hero() {
-    const [isPaused, setIsPaused] = useState(false)
-    const pathname = usePathname() || '/'
-    const currentLang = pathname.split('/').filter(Boolean)[0] === 'de' ? 'de' : 'en'
+const COPY = {
+    en: {
+        label: 'Eselsbergsteige Dormitory',
+        title: 'Practical information for living at Eselsbergsteige.',
+        text:
+            'Find news, FAQ answers, tutor contacts, internet help, shared room information, and useful links without digging through old chats.',
+        primary: 'Open FAQ',
+        secondary: 'Find a tutor',
+    },
+    de: {
+        label: 'Wohnheim Eselsbergsteige',
+        title: 'Praktische Infos fuer das Leben an der Eselsbergsteige.',
+        text:
+            'Finde News, FAQ-Antworten, Tutor-Kontakte, Internet-Hilfe, Infos zu Gemeinschaftsraeumen und wichtige Links ohne langes Suchen.',
+        primary: 'FAQ oeffnen',
+        secondary: 'Tutor:innen finden',
+    },
+} as const
 
-    const scrollToInfo = useCallback(() => {
-        document.getElementById('info')?.scrollIntoView({ behavior: 'smooth' })
-    }, [])
+export default function Hero() {
+    const pathname = usePathname() || '/'
+    const lang = pathname.split('/').filter(Boolean)[0] === 'de' ? 'de' : 'en'
+    const copy = COPY[lang]
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] min-h-[620px] overflow-hidden h-[68vh] md:h-[82vh]">
-            <Swiper
-                modules={[Navigation, Pagination, Autoplay]}
-                navigation
-                pagination={{ clickable: true, dynamicBullets: true }}
-                loop
-                autoplay={isPaused ? false : { delay: 6000, disableOnInteraction: false }}
-                slidesPerView={1}
-                className="h-full"
-            >
-                {SLIDES.map(({ id, src, alt }) => (
-                    <SwiperSlide key={id} className="h-full">
-                        <div className="relative h-full animate-kenburns">
-                            <Image
-                                src={src}
-                                alt={alt}
-                                fill
-                                className="object-cover"
-                                priority
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/85 via-slate-950/55 to-black/70 pointer-events-none" />
-                            <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[var(--bg)] to-transparent" />
-                            <div className="absolute inset-0 flex items-center justify-center px-4 pt-16 text-center">
-                                <div className="mx-auto max-w-4xl">
-                                    <div className="mx-auto mb-5 inline-flex rounded-full border border-white/25 bg-white/15 px-4 py-2 font-sans text-xs font-semibold uppercase tracking-[0.24em] text-secondary backdrop-blur">
-                                        Student living in Ulm
-                                    </div>
-                                    <h1 className="text-4xl font-extrabold leading-tight text-white drop-shadow-lg md:text-6xl lg:text-7xl">
-                                        Welcome to
-                                        <br />
-                                        Eselsbergsteige Dormitory
-                                    </h1>
-                                    <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/90 md:text-xl">
-                                        Home to 500 students, fast internet, helpful tutors, and shared spaces that make daily life easier.
-                                    </p>
-                                    <div className="mt-8 flex flex-wrap justify-center gap-3">
-                                        <button
-                                            onClick={scrollToInfo}
-                                            className="rounded-full bg-secondary px-6 py-3 font-sans text-sm font-bold text-slate-950 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-yellow-300"
-                                        >
-                                            Explore essentials
-                                        </button>
-                                        <a
-                                            href={`/${currentLang}/tutors`}
-                                            className="rounded-full border border-white/40 bg-white/10 px-6 py-3 font-sans text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
-                                        >
-                                            Find a tutor
-                                        </a>
-                                    </div>
-                                    <div className="mx-auto mt-8 grid max-w-2xl grid-cols-3 gap-3 text-white">
-                                        {[
-                                            ['500+', 'residents'],
-                                            ['24/7', 'network help'],
-                                            ['DE/EN', 'info pages'],
-                                        ].map(([value, label]) => (
-                                            <div key={value} className="rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur">
-                                                <div className="font-sans text-xl font-bold">{value}</div>
-                                                <div className="font-sans text-[11px] uppercase tracking-[0.18em] text-white/70">{label}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+        <section className="border-b border-slate-200/70 bg-white/55 dark:border-white/10 dark:bg-slate-950/35">
+            <div className="container mx-auto grid max-w-7xl gap-8 px-4 py-8 md:grid-cols-[1fr_1.1fr] md:items-center md:py-14">
+                <div className="max-w-2xl">
+                    <p className="section-label">{copy.label}</p>
+                    <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-tight text-slate-950 dark:text-white sm:text-4xl lg:text-5xl">
+                        {copy.title}
+                    </h1>
+                    <p className="mt-5 text-base leading-8 text-slate-700 dark:text-slate-300 md:text-lg">
+                        {copy.text}
+                    </p>
+                    <div className="mt-7 flex flex-wrap gap-3">
+                        <Link
+                            href={`/${lang}/faq`}
+                            className="rounded-full bg-primary px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90"
+                        >
+                            {copy.primary}
+                        </Link>
+                        <Link
+                            href={`/${lang}/tutors`}
+                            className="rounded-full border border-slate-300 px-5 py-2.5 font-sans text-sm font-semibold text-slate-800 transition hover:border-primary hover:text-primary dark:border-white/20 dark:text-slate-100 dark:hover:border-secondary dark:hover:text-secondary"
+                        >
+                            {copy.secondary}
+                        </Link>
+                    </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-3 md:min-h-[360px]">
+                    <div className="relative min-h-[220px] overflow-hidden rounded-3xl bg-slate-200 sm:col-span-2 sm:min-h-[320px] dark:bg-slate-800">
+                        <Image
+                            src={IMAGES[0].src}
+                            alt={IMAGES[0].alt}
+                            fill
+                            priority
+                            sizes="(max-width: 768px) 100vw, 55vw"
+                            className="object-cover"
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-1">
+                        {IMAGES.slice(1).map((image) => (
+                            <div
+                                key={image.src}
+                                className="relative min-h-[120px] overflow-hidden rounded-2xl bg-slate-200 dark:bg-slate-800"
+                            >
+                                <Image
+                                    src={image.src}
+                                    alt={image.alt}
+                                    fill
+                                    sizes="(max-width: 768px) 50vw, 20vw"
+                                    className="object-cover"
+                                />
                             </div>
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-
-            <button
-                onClick={() => setIsPaused((p) => !p)}
-                className={
-                    'absolute bottom-6 right-6 z-10 rounded-full border border-white/25 px-3 py-2 font-sans text-xs font-semibold text-white shadow-md backdrop-blur transition ' +
-                    (isPaused ? 'bg-primary/70 hover:bg-primary' : 'bg-black/35 hover:bg-black/55')
-                }
-                aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
-            >
-                {isPaused ? 'Play' : 'Pause'}
-            </button>
-
-            <style jsx>{`
-                @keyframes kenburns {
-                    0% {
-                        transform: scale(1) translate(0, 0);
-                    }
-                    100% {
-                        transform: scale(1.05) translate(0, -2%);
-                    }
-                }
-                .animate-kenburns {
-                    animation: kenburns 20s ease-in-out infinite alternate;
-                }
-            `}</style>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </section>
     )
 }
