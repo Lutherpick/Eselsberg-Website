@@ -18,3 +18,18 @@ export function clampInt(value: string | null, def: number, min: number, max: nu
 export function normalizeLang(value: string | null) {
     return value === "de" ? "de" : "en";
 }
+
+export function upstreamError(status: number) {
+    return {
+        ok: false,
+        error: "upstream_error",
+        upstreamStatus: status,
+    };
+}
+
+export function fetchFailedError() {
+    return {
+        ok: false,
+        error: "fetch_failed",
+    };
+}

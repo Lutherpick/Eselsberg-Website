@@ -1,6 +1,6 @@
 // src/app/api/tutors/route.ts
 import { NextResponse } from "next/server";
-import { EBS_API_BASE } from "@/lib/ebs";
+import { EBS_API_BASE, fetchFailedError, upstreamError } from "@/lib/ebs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,20 +37,14 @@ export async function GET() {
 
     try {
         const res = await fetch(upstreamUrl, { cache: "no-store" });
-        const text = await res.text();
-
         if (!res.ok) {
             return NextResponse.json(
-                {
-                    ok: false,
-                    error: "upstream_error",
-                    upstreamUrl,
-                    upstreamStatus: res.status,
-                    upstreamBody: text.slice(0, 2000),
-                },
+                upstreamError(res.status),
                 { status: 502, headers: { "Cache-Control": "no-store" } }
             );
         }
+
+        const text = await res.text();
 
         let json: unknown;
 
@@ -61,8 +55,6 @@ export async function GET() {
                 {
                     ok: false,
                     error: "invalid_json",
-                    upstreamUrl,
-                    upstreamBody: text.slice(0, 2000),
                 },
                 { status: 502, headers: { "Cache-Control": "no-store" } }
             );
@@ -93,16 +85,9 @@ export async function GET() {
             },
             { status: 200, headers: { "Cache-Control": "no-store" } }
         );
-    } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-
+    } catch {
         return NextResponse.json(
-            {
-                ok: false,
-                error: "fetch_failed",
-                upstreamUrl,
-                message,
-            },
+            fetchFailedError(),
             { status: 502, headers: { "Cache-Control": "no-store" } }
         );
     }
