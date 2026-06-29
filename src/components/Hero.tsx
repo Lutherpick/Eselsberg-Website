@@ -1,97 +1,96 @@
 // src/components/Hero.tsx
 'use client'
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import Image from 'next/image'
-import { useCallback, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-// swiper styles
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-
-const SLIDES: { id: string; src: string; alt: string }[] = [
-    { id: 'night1', src: '/dorm-night.jpg', alt: 'Dorm at night' },
-    { id: 'night2', src: '/dorm-night2.jpg', alt: 'Dorm at night (view 2)' },
-    { id: 'day', src: '/dorm-day.jpg', alt: 'Dorm in the fall' },
+const IMAGES = [
+    { src: '/dorm-day.jpg', alt: 'Eselsbergsteige dormitory during the day' },
+    { src: '/dorm-night.jpg', alt: 'Eselsbergsteige dormitory at night' },
+    { src: '/dorm-night2.jpg', alt: 'Second night view of the dormitory' },
 ]
 
-export default function Hero() {
-    const [isPaused, setIsPaused] = useState(false)
+const COPY = {
+    en: {
+        label: 'Eselsbergsteige Dormitory',
+        title: 'Practical information for living at Eselsbergsteige.',
+        text:
+            'Find news, FAQ answers, tutor contacts, internet help, shared room information, and useful links without digging through old chats.',
+        primary: 'Open FAQ',
+        secondary: 'Find a tutor',
+    },
+    de: {
+        label: 'Wohnheim Eselsbergsteige',
+        title: 'Praktische Infos fuer das Leben an der Eselsbergsteige.',
+        text:
+            'Finde News, FAQ-Antworten, Tutor-Kontakte, Internet-Hilfe, Infos zu Gemeinschaftsraeumen und wichtige Links ohne langes Suchen.',
+        primary: 'FAQ oeffnen',
+        secondary: 'Tutor:innen finden',
+    },
+} as const
 
-    // scroll down to general info
-    const scrollToInfo = useCallback(() => {
-        document.getElementById('info')?.scrollIntoView({ behavior: 'smooth' })
-    }, [])
+export default function Hero() {
+    const pathname = usePathname() || '/'
+    const lang = pathname.split('/').filter(Boolean)[0] === 'de' ? 'de' : 'en'
+    const copy = COPY[lang]
 
     return (
-        <div className="relative w-screen left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] overflow-hidden h-[60vh] md:h-[80vh]">
-            <Swiper
-                modules={[Navigation, Pagination, Autoplay]}
-                navigation
-                pagination={{ clickable: true, dynamicBullets: true }}
-                loop
-                autoplay={isPaused ? false : { delay: 6000, disableOnInteraction: false }}
-                slidesPerView={1}
-                className="h-full"
-            >
-                {SLIDES.map(({ id, src, alt }) => (
-                    <SwiperSlide key={id} className="h-full">
-                        <div className="relative h-full animate-kenburns">
-                            <Image
-                                src={src}
-                                alt={alt}
-                                fill
-                                className="object-contain md:object-cover"
-                                priority
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 pointer-events-none" />
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
-                                    Welcome to
-                                    <br />
-                                    Eselsbergsteige Dormitory
-                                </h1>
-                                <p className="mt-4 text-base md:text-lg text-white/90 max-w-xl">
-                                    Home to 500 students, gigabit internet, caring staff, and vibrant common rooms.
-                                </p>
-                                <button
-                                    onClick={scrollToInfo}
-                                    className="mt-8 px-6 py-3 md:px-8 md:py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg transition"
-                                >
-                                    Explore General Info ↓
-                                </button>
+        <section className="border-b border-slate-200/70 bg-white/55 dark:border-white/10 dark:bg-slate-950/35">
+            <div className="container mx-auto grid max-w-7xl gap-8 px-4 py-8 md:grid-cols-[1fr_1.1fr] md:items-center md:py-14">
+                <div className="max-w-2xl">
+                    <p className="section-label">{copy.label}</p>
+                    <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-tight text-slate-950 dark:text-white sm:text-4xl lg:text-5xl">
+                        {copy.title}
+                    </h1>
+                    <p className="mt-5 text-base leading-8 text-slate-700 dark:text-slate-300 md:text-lg">
+                        {copy.text}
+                    </p>
+                    <div className="mt-7 flex flex-wrap gap-3">
+                        <Link
+                            href={`/${lang}/faq`}
+                            className="rounded-full bg-primary px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90"
+                        >
+                            {copy.primary}
+                        </Link>
+                        <Link
+                            href={`/${lang}/tutors`}
+                            className="rounded-full border border-slate-300 px-5 py-2.5 font-sans text-sm font-semibold text-slate-800 transition hover:border-primary hover:text-primary dark:border-white/20 dark:text-slate-100 dark:hover:border-secondary dark:hover:text-secondary"
+                        >
+                            {copy.secondary}
+                        </Link>
+                    </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-3 md:min-h-[360px]">
+                    <div className="relative min-h-[220px] overflow-hidden rounded-3xl bg-slate-200 sm:col-span-2 sm:min-h-[320px] dark:bg-slate-800">
+                        <Image
+                            src={IMAGES[0].src}
+                            alt={IMAGES[0].alt}
+                            fill
+                            priority
+                            sizes="(max-width: 768px) 100vw, 55vw"
+                            className="object-cover"
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-1">
+                        {IMAGES.slice(1).map((image) => (
+                            <div
+                                key={image.src}
+                                className="relative min-h-[120px] overflow-hidden rounded-2xl bg-slate-200 dark:bg-slate-800"
+                            >
+                                <Image
+                                    src={image.src}
+                                    alt={image.alt}
+                                    fill
+                                    sizes="(max-width: 768px) 50vw, 20vw"
+                                    className="object-cover"
+                                />
                             </div>
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-
-            <button
-                onClick={() => setIsPaused((p) => !p)}
-                className={
-                    'absolute bottom-4 right-4 z-10 rounded-full p-2 shadow-md text-white transition ' +
-                    (isPaused ? 'bg-black/50 hover:bg-green-600' : 'bg-black/50 hover:bg-red-600')
-                }
-                aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
-            >
-                {isPaused ? '▶️' : '⏸️'}
-            </button>
-
-            <style jsx>{`
-                @keyframes kenburns {
-                    0% {
-                        transform: scale(1) translate(0, 0);
-                    }
-                    100% {
-                        transform: scale(1.05) translate(0, -2%);
-                    }
-                }
-                .animate-kenburns {
-                    animation: kenburns 20s ease-in-out infinite alternate;
-                }
-            `}</style>
-        </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
     )
 }

@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import NewsGrid from "@/components/NewsGrid";
 import ConnectBanner from "@/components/ConnectBanner";
 import InRangeBanner from "@/components/InRangeBanner";
+import HomeHighlights from "@/components/HomeHighlights";
 import TutorsDirectory from "./tutors-directory";
 
 export const metadata: Metadata = {
@@ -26,8 +27,9 @@ export default async function HomePage({
             <Hero />
 
             <Layout>
-                <main className="py-10 space-y-10">
+                <main className="space-y-9 py-8 md:space-y-11 md:py-12">
                     <InRangeBanner />
+                    <HomeHighlights lang={lang} />
                     <NewsGrid lang={lang} />
                     <TutorsDirectory lang={lang} />
                 </main>

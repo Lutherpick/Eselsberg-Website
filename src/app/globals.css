@@ -5,14 +5,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Always white bg in light, dark-bg in dark */
-:root { --bg: var(--light-bg); --fg: #1F2937; }
-html.dark { --bg: var(--dark-bg); --fg: #E5E7EB; }
+:root {
+  --bg: #f7f3ea;
+  --fg: #1F2937;
+  --surface: rgba(255, 255, 255, 0.82);
+}
+
+html.dark {
+  --bg: #101820;
+  --fg: #E5E7EB;
+  --surface: rgba(15, 23, 42, 0.82);
+}
 
 html, body {
   @apply bg-[var(--bg)] text-[var(--fg)] antialiased transition-colors duration-300;
 }
-body { font-family: Merriweather, serif; }
+body {
+  font-family: Merriweather, serif;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(239, 179, 47, 0.18), transparent 34rem),
+    radial-gradient(circle at top right, rgba(30, 77, 83, 0.16), transparent 32rem),
+    var(--bg);
+}
 h1,h2,h3,h4 { font-family: Inter, sans-serif; }
 
 /* skip-link for a11y */
@@ -28,4 +43,12 @@ h1,h2,h3,h4 { font-family: Inter, sans-serif; }
 /* card helper */
 .card {
   @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow p-6 transition;
+}
+
+.glass-card {
+  @apply rounded-3xl border border-white/60 bg-white/75 shadow-[0_18px_60px_rgba(15,23,42,0.10)] backdrop-blur dark:border-white/10 dark:bg-slate-950/70;
+}
+
+.section-label {
+  @apply text-xs font-semibold uppercase tracking-[0.24em] text-primary dark:text-secondary;
 }

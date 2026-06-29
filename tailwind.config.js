@@ -10,8 +10,8 @@ module.exports = {
             colors: {
                 primary: '#1E4D53',    // deep teal
                 secondary: '#EFB32F',  // sunrise gold
-                'light-bg': '#FFFFFF', // always white background
-                'dark-bg': '#FFFFFF',  // white even in “dark” mode
+                'light-bg': '#F7F3EA',
+                'dark-bg': '#101820',
             },
             fontFamily: {
                 body: ['Merriweather', 'serif'],

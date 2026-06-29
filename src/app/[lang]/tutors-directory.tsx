@@ -1,7 +1,7 @@
 // src/app/[lang]/tutors-directory.tsx
 import Link from "next/link";
 
-import { getOrigin } from "@/lib/origin";
+import { EBS_API_BASE } from "@/lib/ebs";
 
 type Tutor = {
     tutor: string;
@@ -18,20 +18,24 @@ type TutorsApiResponse = {
 };
 
 async function fetchTutorsPreview(): Promise<TutorsApiResponse | null> {
-    const origin = await getOrigin();
-    const url = new URL("/api/tutors", origin);
-
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(`${EBS_API_BASE}/tutors_api.php`, {
+        cache: "no-store",
+        redirect: "follow",
+    });
     if (!res.ok) return null;
 
     const json = (await res.json()) as any;
-    if (!json?.ok || !Array.isArray(json.tutors)) return null;
+    const tutors = Array.isArray(json)
+        ? json
+        : Array.isArray(json?.tutors)
+          ? json.tutors
+          : [];
 
     return {
         ok: true,
         updated_at: json.updated_at,
-        count: Number(json.count ?? json.tutors.length ?? 0),
-        tutors: json.tutors as Tutor[],
+        count: Number(json.count ?? tutors.length ?? 0),
+        tutors: tutors as Tutor[],
     };
 }
 
@@ -47,10 +51,11 @@ export default async function TutorsDirectory({ lang }: { lang: "en" | "de" }) {
     const sample = tutors.slice(0, 6);
 
     return (
-        <section className="rounded-3xl border border-slate-200/70 bg-white/70 p-6 shadow-[0_8px_30px_rgba(2,6,23,0.08)] dark:border-slate-800 dark:bg-slate-950">
-            <div className="flex items-start justify-between gap-6">
+        <section className="border-t border-slate-200/80 pt-8 dark:border-white/10">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                    <p className="section-label">{isDe ? "Kontakt" : "Contacts"}</p>
+                    <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-100">
                         {isDe ? "Aktuelle Tutor-Liste" : "Current tutor list"}
                     </h2>
                     <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
@@ -66,14 +71,14 @@ export default async function TutorsDirectory({ lang }: { lang: "en" | "de" }) {
 
                 <Link
                     href={`/${lang}/tutors`}
-                    className="text-sm font-medium text-slate-700 underline-offset-4 hover:underline dark:text-slate-200"
+                    className="w-fit rounded-full border border-primary/20 px-4 py-2 font-sans text-sm font-semibold text-primary transition hover:bg-primary hover:text-white dark:border-secondary/40 dark:text-secondary"
                 >
                     {isDe ? "Vollständige Liste öffnen" : "Open full list"}
                 </Link>
             </div>
 
             {sample.length === 0 ? (
-                <div className="mt-6 rounded-2xl border border-slate-200/70 bg-slate-50 p-4 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-200">
+                <div className="mt-6 border-t border-slate-200 pt-4 text-sm text-slate-700 dark:border-white/10 dark:text-slate-200">
                     {isDe ? "Keine Daten." : "No data."}
                 </div>
             ) : (
@@ -81,7 +86,7 @@ export default async function TutorsDirectory({ lang }: { lang: "en" | "de" }) {
                     {sample.map((p) => (
                         <li
                             key={`${p.tutor}-${p.email ?? ""}-${p.zinr}-${p.name}`}
-                            className="rounded-xl border border-slate-200/70 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40"
+                            className="border-t border-slate-200 pt-4 dark:border-white/10"
                         >
                             <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                                 {p.name}

@@ -1,12 +1,13 @@
 import "server-only";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getOrigin } from "@/lib/origin";
+import { EBS_API_BASE } from "@/lib/ebs";
 
 type NewsItem = {
     date: string;
     title: string;
-    body: string;
+    body?: string | null;
+    description?: string | null;
 };
 
 export const dynamic = "force-dynamic";
@@ -21,12 +22,17 @@ function slugify(title: string) {
 }
 
 async function fetchNews(lang: "en" | "de", limit = 20): Promise<NewsItem[]> {
-    const origin = await getOrigin();
-    const res = await fetch(new URL(`/api/news?lang=${lang}&limit=${limit}`, origin), {
+    const url = `${EBS_API_BASE}/news_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
+    const res = await fetch(url, {
         cache: "no-store",
+        redirect: "follow",
     });
     if (!res.ok) return [];
     return (await res.json()) as NewsItem[];
+}
+
+function summary(item: NewsItem) {
+    return item.body ?? item.description ?? "";
 }
 
 export async function generateMetadata({
@@ -85,7 +91,7 @@ export default async function NewsPage({
                                     <div className="text-xs text-black/60 dark:text-white/60">{n.date}</div>
                                     <div className="mt-2 text-lg font-semibold">{n.title}</div>
                                     <div className="mt-3 text-sm text-black/70 dark:text-white/70 line-clamp-4">
-                                        {n.body}
+                                        {summary(n)}
                                     </div>
                                     <div className="mt-4 text-sm text-blue-600 dark:text-blue-400 underline underline-offset-4">
                                         {isDe ? "Mehr lesen" : "Read more"}
