@@ -20,12 +20,16 @@ function parseSlug(slug: string) {
 
 async function fetchNews(lang: "en" | "de", limit = 200): Promise<NewsItem[]> {
     const url = `${EBS_API_BASE}/news_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
-    const res = await fetch(url, {
-        cache: "no-store",
-        redirect: "follow",
-    });
-    if (!res.ok) return [];
-    return (await res.json()) as NewsItem[];
+    try {
+        const res = await fetch(url, {
+            cache: "no-store",
+            redirect: "follow",
+        });
+        if (!res.ok) return [];
+        return (await res.json()) as NewsItem[];
+    } catch {
+        return [];
+    }
 }
 
 async function findItem(lang: "en" | "de", slug: string): Promise<NewsItem | null> {

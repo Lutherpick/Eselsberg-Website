@@ -23,12 +23,16 @@ function slugify(title: string) {
 
 async function fetchNews(lang: "en" | "de", limit = 20): Promise<NewsItem[]> {
     const url = `${EBS_API_BASE}/news_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
-    const res = await fetch(url, {
-        cache: "no-store",
-        redirect: "follow",
-    });
-    if (!res.ok) return [];
-    return (await res.json()) as NewsItem[];
+    try {
+        const res = await fetch(url, {
+            cache: "no-store",
+            redirect: "follow",
+        });
+        if (!res.ok) return [];
+        return (await res.json()) as NewsItem[];
+    } catch {
+        return [];
+    }
 }
 
 function summary(item: NewsItem) {

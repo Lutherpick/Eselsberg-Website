@@ -18,22 +18,30 @@ type Appointment = {
 
 async function fetchNews(lang: "en" | "de", limit = 6) {
     const url = `${EBS_API_BASE}/news_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
-    const res = await fetch(url, {
-        cache: "no-store",
-        redirect: "follow",
-    });
-    if (!res.ok) return [] as NewsItem[];
-    return (await res.json()) as NewsItem[];
+    try {
+        const res = await fetch(url, {
+            cache: "no-store",
+            redirect: "follow",
+        });
+        if (!res.ok) return [] as NewsItem[];
+        return (await res.json()) as NewsItem[];
+    } catch {
+        return [] as NewsItem[];
+    }
 }
 
 async function fetchAppointments(lang: "en" | "de", limit = 5) {
     const url = `${EBS_API_BASE}/appointments_api.php?lang=${encodeURIComponent(lang)}&limit=${limit}`;
-    const res = await fetch(url, {
-        cache: "no-store",
-        redirect: "follow",
-    });
-    if (!res.ok) return [] as Appointment[];
-    return (await res.json()) as Appointment[];
+    try {
+        const res = await fetch(url, {
+            cache: "no-store",
+            redirect: "follow",
+        });
+        if (!res.ok) return [] as Appointment[];
+        return (await res.json()) as Appointment[];
+    } catch {
+        return [] as Appointment[];
+    }
 }
 
 function summary(item: NewsItem | Appointment) {
@@ -69,23 +77,31 @@ export default async function NewsGrid({ lang }: { lang: "en" | "de" }) {
                 </div>
 
                 <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-                    {news.map((n) => (
-                        <Link
-                            key={`${n.date}-${n.title}`}
-                            href={`/${lang}/news/${n.date}-${slugify(n.title)}`}
-                            className="border-t border-slate-200 pt-4 transition hover:border-primary dark:border-white/10 dark:hover:border-secondary"
-                        >
-                            <div className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-primary/70 dark:text-secondary/80">
-                                {n.date}
-                            </div>
-                            <div className="mt-2 font-sans text-lg font-semibold text-slate-950 dark:text-white">
-                                {n.title}
-                            </div>
-                            <div className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                                {summary(n)}
-                            </div>
-                        </Link>
-                    ))}
+                    {news.length === 0 ? (
+                        <div className="border-t border-dashed border-slate-300 pt-4 text-sm leading-6 text-slate-600 dark:border-white/10 dark:text-slate-300 md:col-span-2">
+                            {lang === "de"
+                                ? "Zurzeit sind keine News eingetragen."
+                                : "No news is listed right now."}
+                        </div>
+                    ) : (
+                        news.map((n) => (
+                            <Link
+                                key={`${n.date}-${n.title}`}
+                                href={`/${lang}/news/${n.date}-${slugify(n.title)}`}
+                                className="border-t border-slate-200 pt-4 transition hover:border-primary dark:border-white/10 dark:hover:border-secondary"
+                            >
+                                <div className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-primary/70 dark:text-secondary/80">
+                                    {n.date}
+                                </div>
+                                <div className="mt-2 font-sans text-lg font-semibold text-slate-950 dark:text-white">
+                                    {n.title}
+                                </div>
+                                <div className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                                    {summary(n)}
+                                </div>
+                            </Link>
+                        ))
+                    )}
                 </div>
             </div>
 

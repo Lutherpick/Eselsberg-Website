@@ -14,24 +14,28 @@ type TutorsApiResponse =
     | { ok: false; error?: string };
 
 async function fetchTutors(): Promise<Tutor[]> {
-    const res = await fetch(`${EBS_API_BASE}/tutors_api.php`, {
-        cache: "no-store",
-        redirect: "follow",
-    });
+    try {
+        const res = await fetch(`${EBS_API_BASE}/tutors_api.php`, {
+            cache: "no-store",
+            redirect: "follow",
+        });
 
-    if (!res.ok) return [];
+        if (!res.ok) return [];
 
-    const json = (await res.json()) as TutorsApiResponse | Tutor[] | any;
+        const json = (await res.json()) as TutorsApiResponse | Tutor[] | any;
 
-    // Our API returns: { ok: true, tutors: [...] }
-    if (json && typeof json === "object" && json.ok === true && Array.isArray(json.tutors)) {
-        return json.tutors as Tutor[];
+        // Our API returns: { ok: true, tutors: [...] }
+        if (json && typeof json === "object" && json.ok === true && Array.isArray(json.tutors)) {
+            return json.tutors as Tutor[];
+        }
+
+        // Fallback: upstream could be array
+        if (Array.isArray(json)) return json as Tutor[];
+
+        return [];
+    } catch {
+        return [];
     }
-
-    // Fallback: upstream could be array
-    if (Array.isArray(json)) return json as Tutor[];
-
-    return [];
 }
 
 export default async function TutorsPage({

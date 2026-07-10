@@ -6,13 +6,17 @@ type InRangeResponse =
     | { ok: false; reason: string };
 
 async function fetchInRange(): Promise<InRangeResponse> {
-    const res = await fetch(`${EBS_API_BASE}/inrange_api.php`, {
-        cache: "no-store",
-        redirect: "follow",
-    });
+    try {
+        const res = await fetch(`${EBS_API_BASE}/inrange_api.php`, {
+            cache: "no-store",
+            redirect: "follow",
+        });
 
-    if (!res.ok) return { ok: false, reason: `HTTP ${res.status}` };
-    return (await res.json()) as InRangeResponse;
+        if (!res.ok) return { ok: false, reason: `HTTP ${res.status}` };
+        return (await res.json()) as InRangeResponse;
+    } catch {
+        return { ok: false, reason: "unavailable" };
+    }
 }
 
 export default async function InRangeBanner() {

@@ -18,25 +18,29 @@ type TutorsApiResponse = {
 };
 
 async function fetchTutorsPreview(): Promise<TutorsApiResponse | null> {
-    const res = await fetch(`${EBS_API_BASE}/tutors_api.php`, {
-        cache: "no-store",
-        redirect: "follow",
-    });
-    if (!res.ok) return null;
+    try {
+        const res = await fetch(`${EBS_API_BASE}/tutors_api.php`, {
+            cache: "no-store",
+            redirect: "follow",
+        });
+        if (!res.ok) return null;
 
-    const json = (await res.json()) as any;
-    const tutors = Array.isArray(json)
-        ? json
-        : Array.isArray(json?.tutors)
-          ? json.tutors
-          : [];
+        const json = (await res.json()) as any;
+        const tutors = Array.isArray(json)
+            ? json
+            : Array.isArray(json?.tutors)
+              ? json.tutors
+              : [];
 
-    return {
-        ok: true,
-        updated_at: json.updated_at,
-        count: Number(json.count ?? tutors.length ?? 0),
-        tutors: tutors as Tutor[],
-    };
+        return {
+            ok: true,
+            updated_at: json.updated_at,
+            count: Number(json.count ?? tutors.length ?? 0),
+            tutors: tutors as Tutor[],
+        };
+    } catch {
+        return null;
+    }
 }
 
 /**
